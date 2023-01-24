@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@Transactional
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
@@ -21,13 +20,10 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository = roleRepository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Role> getRoleList() {
         return roleRepository.findAll();
     }
 
-    @Override
-    public Role getRoleById(Long id) {
-        return roleRepository.findById(id).orElse(null);
-    }
 }

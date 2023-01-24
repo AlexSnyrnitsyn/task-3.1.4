@@ -49,14 +49,6 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
-    public boolean hasRole(int roleId) {
-        if (null == roles || 0 == roles.size()) {
-            return false;
-        }
-        Optional<Role> findRole = roles.stream().filter(role -> roleId == role.getId()).findFirst();
-        return findRole.isPresent();
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();

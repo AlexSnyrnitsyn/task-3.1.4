@@ -11,7 +11,6 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -22,18 +21,14 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     @Override
     public void createUser(User user) {
         user.setPassword(passwordEncoder.encode(new String()));
         userRepository.save(user);
     }
 
-    @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-    }
-
+    @Transactional
     @Override
     public void updateUser(Long id, User updateUser) {
         User user = userRepository.findById(id)
@@ -47,16 +42,19 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
 
+    @Transactional
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
